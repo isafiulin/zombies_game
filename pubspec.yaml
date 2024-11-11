@@ -1,0 +1,55 @@
+name: zombies_game
+description: "A new Flutter project."
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ^3.5.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  webview_flutter: ^4.8.0
+  flutter_screenutil: ^5.9.3
+  flutter_svg: ^2.0.10+1
+  intl: ^0.19.0
+  url_launcher: ^6.2.4
+  share_plus: ^10.0.2
+  apphud: ^2.5.4
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  collection: ^1.18.0
+  shared_preferences: ^2.3.2
+  flutter_bloc: ^8.1.6
+  audioplayers: ^6.1.0
+  provider: ^6.1.2
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  flutter_native_splash: ^2.4.1
+  build_runner: ^2.4.9
+  hive_generator: ^2.0.1
+
+flutter_native_splash:
+  background_image: "assets/images/splatfd.png"
+  web: false
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/
+    - assets/audio/
+    - assets/icons/
+    - assets/images/
+    - assets/guns/
+
+  fonts:
+    - family: JejuHallasan
+      fonts:
+        - asset: assets/fonts/JejuHallasan-Regular.ttf
+          weight: 400
