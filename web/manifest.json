@@ -1,6 +1,6 @@
 {
-    "name": "zombie_game",
-    "short_name": "zombie_game",
+    "name": "ZombiesOrCats",
+    "short_name": "ZombiesOrCats",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

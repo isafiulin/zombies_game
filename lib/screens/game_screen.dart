@@ -4,11 +4,14 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zombies_game/generated/locale_keys.g.dart';
 
 import 'package:zombies_game/hzom/hzom_color.dart';
 import 'package:zombies_game/hzom/hzom_motion.dart';
+import 'package:zombies_game/screens/main_screen.dart';
 import 'package:zombies_game/services/coins_provider.dart';
 import 'package:zombies_game/services/guns_provider.dart';
 import 'package:zombies_game/services/level_provider.dart';
@@ -38,8 +41,10 @@ class _GamiScreenState extends State<GamiScreen>
     super.initState();
     _showZombi();
     zombiList = generatezombiList(widget.lvlType);
-    _controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
   }
 
   @override
@@ -49,9 +54,7 @@ class _GamiScreenState extends State<GamiScreen>
   }
 
   void _dfsdf44() async {
-    _audioPlayer.play(
-      AssetSource('audio/shrt.mp3'),
-    );
+    _audioPlayer.play(AssetSource('audio/shrt.mp3'));
   }
 
   Future<dynamic> loseDialog(BuildContext context) {
@@ -78,7 +81,16 @@ class _GamiScreenState extends State<GamiScreen>
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  Text(
+                    LocaleKeys.youLose.tr(),
+                    style: TextStyle(
+                      fontSize: 24.sp,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white,
+                    ),
+                  ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
                         child: HZOMMot(
@@ -86,31 +98,60 @@ class _GamiScreenState extends State<GamiScreen>
                             Navigator.of(context).pop();
                             Navigator.of(context).pop();
                           },
-                          child: Image.asset(
-                            'assets/images/backlose.png',
-                            height: 52.h,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/images/againlose.png',
+                                height: 52.h,
+                                width: double.infinity,
+                                fit: BoxFit.fill,
+                              ),
+                              Text(
+                                LocaleKeys.back.tr(),
+                                style: TextStyle(
+                                  fontSize: 20.h,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      HZOMMot(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => GamiScreen(
-                                lvlType: widget.lvlType,
-                                lvl: widget.lvl,
+                      SizedBox(width: 40.w),
+
+                      Expanded(
+                        child: HZOMMot(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => GamiScreen(
+                                  lvlType: widget.lvlType,
+                                  lvl: widget.lvl,
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                        child: Image.asset(
-                          'assets/images/againlose.png',
-                          height: 52.h,
+                            );
+                          },
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/images/againlose.png',
+                                height: 52.h,
+                                fit: BoxFit.fill,
+                                width: double.infinity,
+                              ),
+                              Text(
+                                LocaleKeys.restart.tr(),
+                                style: TextStyle(
+                                  fontSize: 20.h,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -124,20 +165,24 @@ class _GamiScreenState extends State<GamiScreen>
     );
   }
 
-  Future<dynamic> woneDialog(BuildContext context, CoinsProvider coinProvader,
-      LevelProvider lvlProvaider) {
+  Future<dynamic> woneDialog(
+    BuildContext context,
+    CoinsProvider coinProvader,
+    LevelProvider lvlProvaider,
+  ) {
     return showDialog(
       barrierDismissible: false,
       context: context,
       builder: (context) {
         return SizedBox(
-          height: 305.h,
+          height: 335.h,
           width: 360.w,
           child: AlertDialog(
             elevation: 0,
+            backgroundColor: Colors.transparent,
             contentPadding: EdgeInsets.zero,
             content: Container(
-              height: 250.h,
+              height: 335.h,
               width: 360.w,
               padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 25.h),
               decoration: const BoxDecoration(
@@ -150,7 +195,16 @@ class _GamiScreenState extends State<GamiScreen>
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  Text(
+                    LocaleKeys.youWin.tr(),
+                    style: TextStyle(
+                      fontSize: 24.sp,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white,
+                    ),
+                  ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
                         child: HZOMMot(
@@ -158,36 +212,128 @@ class _GamiScreenState extends State<GamiScreen>
                             Navigator.of(context).pop();
                             Navigator.of(context).pop();
                           },
-                          child: Image.asset(
-                            'assets/images/backwin.png',
-                            height: 52.h,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 4.5.h),
+                            decoration: BoxDecoration(
+                              color: HZOMColor.blue,
+                              borderRadius: BorderRadius.circular(20.sp),
+                            ),
+                            child: Container(
+                              height: 52.h,
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurStyle: BlurStyle.inner,
+                                    offset: const Offset(-1, 2),
+                                    blurRadius: 4,
+                                    spreadRadius: 0,
+                                    color: Colors.white.withOpacity(0.5),
+                                  ),
+                                  BoxShadow(
+                                    offset: const Offset(-2, 1),
+                                    blurRadius: 0,
+                                    spreadRadius: 0,
+                                    color: Colors.black.withOpacity(0.25),
+                                  ),
+                                  BoxShadow(
+                                    blurStyle: BlurStyle.inner,
+                                    offset: const Offset(-1, 2),
+                                    color: HZOMColor.blue.withOpacity(0.9),
+                                  ),
+                                ],
+                                color: HZOMColor.black1A1A1A.withOpacity(0.5),
+                                borderRadius: BorderRadius.circular(20.r),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    LocaleKeys.back.tr(),
+                                    style: TextStyle(
+                                      fontSize: 20.h,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Visibility(
-                        visible: widget.lvl + 1 <= 10,
-                        child: HZOMMot(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            lvlProvaider.saveLevel(
-                                widget.lvlType, widget.lvl + 1);
-                            coinProvader.addCoins(15);
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => GamiScreen(
-                                  lvlType: widget.lvlType,
-                                  lvl: widget.lvl + 1,
+
+                      SizedBox(width: 10.w),
+
+                      Expanded(
+                        child: Visibility(
+                          visible: widget.lvl + 1 <= 10,
+                          child: HZOMMot(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              lvlProvaider.saveLevel(
+                                widget.lvlType,
+                                widget.lvl + 1,
+                              );
+                              coinProvader.addCoins(15);
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => GamiScreen(
+                                    lvlType: widget.lvlType,
+                                    lvl: widget.lvl + 1,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 4.5.h),
+                              decoration: BoxDecoration(
+                                color: HZOMColor.blue,
+                                borderRadius: BorderRadius.circular(20.sp),
+                              ),
+                              child: Container(
+                                height: 52.h,
+                                decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurStyle: BlurStyle.inner,
+                                      offset: const Offset(-1, 2),
+                                      blurRadius: 4,
+                                      spreadRadius: 0,
+                                      color: Colors.white.withOpacity(0.5),
+                                    ),
+                                    BoxShadow(
+                                      offset: const Offset(-2, 1),
+                                      blurRadius: 0,
+                                      spreadRadius: 0,
+                                      color: Colors.black.withOpacity(0.25),
+                                    ),
+                                    BoxShadow(
+                                      blurStyle: BlurStyle.inner,
+                                      offset: const Offset(-1, 2),
+                                      color: HZOMColor.blue.withOpacity(0.9),
+                                    ),
+                                  ],
+                                  color: HZOMColor.black1A1A1A.withOpacity(0.5),
+                                  borderRadius: BorderRadius.circular(20.sp),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      LocaleKeys.continueText.tr(),
+                                      style: TextStyle(
+                                        fontSize: 20.h,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            );
-                          },
-                          child: Image.asset(
-                            'assets/images/nextwin.png',
-                            height: 52.h,
+                            ),
                           ),
                         ),
                       ),
@@ -206,11 +352,18 @@ class _GamiScreenState extends State<GamiScreen>
     _dfsdf44();
 
     double initialX = MediaQuery.of(context).size.width / 2;
-    double initialY = (MediaQuery.of(context).size.height) /
+    double initialY =
+        (MediaQuery.of(context).size.height) /
         MediaQuery.of(context).size.height;
 
-    _balls.add(Ball(initialX / MediaQuery.of(context).size.width, initialY,
-        localPosition, _controller));
+    _balls.add(
+      Ball(
+        initialX / MediaQuery.of(context).size.width,
+        initialY,
+        localPosition,
+        _controller,
+      ),
+    );
   }
 
   List<Zombi> generatezombiList(int lvlType) {
@@ -290,46 +443,81 @@ class _GamiScreenState extends State<GamiScreen>
 
   List<Widget> _buildZombieStack(double screenWidth, double screenHeight) {
     List<Widget> stackChildren = [];
-    double offsetX = 10.w;
-    double offsetY = 10.w;
-    double itemWidth = ((screenWidth - ((offsetX - 3.w) * 3)) / 3);
-    double itemHeight = ((screenWidth - ((offsetX - 3.w) * 3)) / 3);
 
-    int maxElementsInRow = 3;
+    // Grid settings
+    const int columns = 3;
+    final int rows = (zombiList.length / columns).ceil();
+
+    // Gaps and reserved spaces
+    final double gapX = 10.w;
+    final double gapY = 10.h;
+    final double topOffset = 130.h;
+    // Reserve space for the bottom controls so the grid doesn't overlap
+    final double bottomReserve = 220.h;
+
+    final double availableWidth = screenWidth;
+    final double availableHeight = (screenHeight - topOffset - bottomReserve)
+        .clamp(0, double.infinity);
+
+    // Compute square cell size that fits both width and height
+    final double itemSizeByWidth =
+        (availableWidth - gapX * (columns - 1)) / columns;
+    final double itemSizeByHeight = rows > 0
+        ? (availableHeight - gapY * (rows - 1)) / rows
+        : availableHeight;
+    final double itemSize = itemSizeByWidth < itemSizeByHeight
+        ? itemSizeByWidth
+        : itemSizeByHeight;
+
+    // Total grid size to center
+    final double gridWidth = columns * itemSize + (columns - 1) * gapX;
+    final double gridHeight = rows * itemSize + (rows - 1) * gapY;
+    final double startLeft = ((availableWidth - gridWidth) / 2).clamp(
+      0,
+      double.infinity,
+    );
+    final double startTop =
+        topOffset +
+        ((availableHeight - gridHeight) / 2).clamp(0, double.infinity);
 
     for (int i = 0; i < zombiList.length; i++) {
-      double left = (i % maxElementsInRow) * (itemWidth + offsetX);
-      double top = (i ~/ maxElementsInRow) * (itemHeight + offsetY);
+      final int col = i % columns;
+      final int row = i ~/ columns;
+      final double left = startLeft + col * (itemSize + gapX);
+      final double top = startTop + row * (itemSize + gapY);
+
+      final double imageSize = (itemSize - 40.h).clamp(0, itemSize);
 
       stackChildren.add(
         Positioned(
           left: left,
-          top: top + 130.h,
+          top: top,
           child: SizedBox(
-              width: itemWidth,
-              height: itemHeight,
-              child: zombiList[i].isKill
-                  ? null
-                  : Stack(
-                      alignment: AlignmentDirectional.center,
-                      children: [
-                        Image.asset(
-                          key: zombiList[i].globalKey,
-                          zombiList[i].image,
-                          height: itemWidth - 40.h,
-                          width: itemWidth - 40.h,
-                        ),
-                        if (zombiList[i].isHide)
-                          Positioned.fill(
-                            child: Image.asset(
-                              !zombiList[i].isHit
-                                  ? 'assets/images/korob.png'
-                                  : 'assets/images/korobhit.png',
-                              fit: BoxFit.fill,
-                            ),
+            width: itemSize,
+            height: itemSize,
+            child: zombiList[i].isKill
+                ? null
+                : Stack(
+                    alignment: AlignmentDirectional.center,
+                    children: [
+                      Image.asset(
+                        key: zombiList[i].globalKey,
+                        zombiList[i].image,
+                        height: imageSize,
+                        width: imageSize,
+                      ),
+                      if (zombiList[i].isHide)
+                        Positioned.fill(
+                          child: Image.asset(
+                            !zombiList[i].isHit
+                                ? 'assets/images/korob.png'
+                                : 'assets/images/korobhit.png',
+                            fit: BoxFit.fill,
                           ),
-                      ],
-                    )),
+                        ),
+                    ],
+                  ),
+          ),
         ),
       );
     }
@@ -360,9 +548,7 @@ class _GamiScreenState extends State<GamiScreen>
             color: HZOMColor.bg,
             image: DecorationImage(
               fit: BoxFit.fill,
-              image: AssetImage(
-                lvlGameBack[widget.lvlType - 1],
-              ),
+              image: AssetImage(lvlGameBack[widget.lvlType - 1]),
             ),
           ),
           child: SafeArea(
@@ -376,19 +562,38 @@ class _GamiScreenState extends State<GamiScreen>
                         final RenderBox? renderBox =
                             zombi.globalKey.currentContext?.findRenderObject()
                                 as RenderBox?;
+                        final RenderBox? rootBox =
+                            context.findRenderObject() as RenderBox?;
 
-                        if (renderBox != null) {
-                          final Offset offset =
-                              renderBox.localToGlobal(Offset.zero);
+                        if (renderBox != null && rootBox != null) {
+                          // Convert zombie top-left to the same local coord space as tap
+                          final Offset zombieTopLeftGlobal = renderBox
+                              .localToGlobal(Offset.zero);
+                          final Offset rootTopLeftGlobal = rootBox
+                              .localToGlobal(Offset.zero);
+                          final Offset zombieTopLeft =
+                              zombieTopLeftGlobal - rootTopLeftGlobal;
 
-                          double prizraX = offset.dx / width;
-                          double prizraY = offset.dy / height;
+                          final Size zombieSize = renderBox.size;
 
-                          double ballX = ball.targetPosition.dx / width;
-                          double ballY = ball.targetPosition.dy / height;
+                          // Ball target in normalized local coordinates
+                          final double ballX = ball.targetPosition.dx / width;
+                          final double ballY = ball.targetPosition.dy / height;
 
-                          if ((ballX - prizraX).abs() < 0.15 &&
-                              (ballY - prizraY).abs() < 0.05) {
+                          // Zombie rect center and half extents in normalized space
+                          final double zombieCenterX =
+                              (zombieTopLeft.dx + zombieSize.width / 2) / width;
+                          final double zombieCenterY =
+                              (zombieTopLeft.dy + zombieSize.height / 2) /
+                              height;
+                          final double halfW = (zombieSize.width / 2) / width;
+                          final double halfH = (zombieSize.height / 2) / height;
+
+                          final bool isInside =
+                              (ballX - zombieCenterX).abs() <= halfW &&
+                              (ballY - zombieCenterY).abs() <= halfH;
+
+                          if (isInside) {
                             if (zombi.isZombi == false) {
                               zombi.isHit = true;
                               setState(() {});
@@ -427,14 +632,20 @@ class _GamiScreenState extends State<GamiScreen>
                   _removeOffscreenBalls();
                 });
                 return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  padding: EdgeInsets.symmetric(horizontal: 16.h),
                   child: Stack(
                     children: [
                       Row(
                         children: [
                           HZOMMot(
                             onPressed: () {
-                              Navigator.of(context).pop();
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const Mai1nScreen(),
+                                ),
+                                (route) => false,
+                              );
                             },
                             child: Row(
                               children: [
@@ -442,12 +653,12 @@ class _GamiScreenState extends State<GamiScreen>
                                   'assets/icons/back.png',
                                   fit: BoxFit.contain,
                                   height: 29.h,
-                                  width: 27.w,
+                                  width: 27.h,
                                 ),
                                 Text(
-                                  'Back',
+                                  LocaleKeys.back.tr(),
                                   style: TextStyle(
-                                    fontSize: 24.sp,
+                                    fontSize: 20.h,
                                     fontWeight: FontWeight.w400,
                                     color: HZOMColor.blue,
                                   ),
@@ -457,38 +668,35 @@ class _GamiScreenState extends State<GamiScreen>
                           ),
                           const Spacer(),
                           Text(
-                            'Level ${widget.lvl}',
+                            '${LocaleKeys.level.tr()} ${widget.lvl}',
                             style: TextStyle(
-                              fontSize: 32.sp,
+                              fontSize: 26.h,
                               fontWeight: FontWeight.w400,
                               color: Colors.white,
                             ),
                           ),
                           const Spacer(),
-                          SizedBox(
-                            width: 70.w,
-                          ),
+                          SizedBox(width: 70.h),
                         ],
                       ),
                       Positioned(
-                        top: 70.h,
-                        width: width - 32.w,
+                        top: 90.h,
+                        width: width - 44.h,
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 32.0.w),
+                          padding: EdgeInsets.symmetric(horizontal: 32.0.h),
                           child: isStart
                               ? Center(
                                   child: RichText(
                                     textAlign: TextAlign.center,
                                     text: TextSpan(
                                       style: TextStyle(
-                                        fontSize: 24.sp,
+                                        fontSize: 20.h,
                                         color: Colors.white,
-                                        fontFamily: 'JejuHallasan',
                                       ),
-                                      children: const <TextSpan>[
-                                        TextSpan(text: 'Kill the '),
+                                      children: <TextSpan>[
+                                        TextSpan(text: LocaleKeys.hint5.tr()),
                                         TextSpan(
-                                          text: 'zombies',
+                                          text: LocaleKeys.zombies.tr(),
                                           style: TextStyle(
                                             color: Color(0xFF00FF00),
                                             fontWeight: FontWeight.bold,
@@ -502,20 +710,23 @@ class _GamiScreenState extends State<GamiScreen>
                                   textAlign: TextAlign.center,
                                   text: TextSpan(
                                     style: TextStyle(
-                                      fontSize: 24.sp,
+                                      fontSize: 20.h,
                                       color: Colors.white,
-                                      fontFamily: 'JejuHallasan',
                                     ),
-                                    children: const <TextSpan>[
-                                      TextSpan(text: 'Remember where the \n'),
+                                    children: <TextSpan>[
                                       TextSpan(
-                                        text: 'zombies',
+                                        text: '${LocaleKeys.hint3.tr()} \n',
+                                      ),
+                                      TextSpan(
+                                        text: LocaleKeys.zombies.tr(),
                                         style: TextStyle(
                                           color: Color(0xFF00FF00),
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      TextSpan(text: ' are and kill them.'),
+                                      TextSpan(
+                                        text: ' ${LocaleKeys.hint3_2.tr()}',
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -524,35 +735,37 @@ class _GamiScreenState extends State<GamiScreen>
                       Positioned(
                         bottom: 50.h,
                         child: SizedBox(
-                          width: width - 32.w,
+                          width: width - 32.h,
                           child: Row(
                             children: [
                               Expanded(
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                      'Gun',
+                                      LocaleKeys.gun.tr(),
                                       style: TextStyle(
-                                        fontSize: 32.sp,
+                                        fontSize: 20.h,
                                         fontWeight: FontWeight.w400,
                                         color: Colors.white,
                                       ),
                                     ),
-                                    SizedBox(
-                                      height: 19.h,
-                                    ),
+                                    SizedBox(height: 10.h),
                                     Container(
                                       padding: EdgeInsets.symmetric(
-                                          vertical: 4.5.h, horizontal: 5.5.w),
+                                        vertical: 4.5.h,
+                                        horizontal: 5.5.w,
+                                      ),
                                       decoration: BoxDecoration(
-                                          color: widget.lvlType == 2
-                                              ? HZOMColor.redFF0000
-                                              : HZOMColor.blue,
-                                          borderRadius:
-                                              BorderRadius.circular(20.r)),
+                                        color: widget.lvlType == 2
+                                            ? HZOMColor.redFF0000
+                                            : HZOMColor.blue,
+                                        borderRadius: BorderRadius.circular(
+                                          20.sp,
+                                        ),
+                                      ),
                                       child: Container(
-                                        height: 100.h,
+                                        height: 80.h,
                                         width: 117.w,
                                         decoration: BoxDecoration(
                                           boxShadow: [
@@ -561,68 +774,70 @@ class _GamiScreenState extends State<GamiScreen>
                                               offset: const Offset(-1, 2),
                                               blurRadius: 4,
                                               spreadRadius: 0,
-                                              color:
-                                                  Colors.white.withOpacity(0.5),
+                                              color: Colors.white.withOpacity(
+                                                0.5,
+                                              ),
                                             ),
                                             BoxShadow(
                                               offset: const Offset(-2, 1),
                                               blurRadius: 0,
                                               spreadRadius: 0,
-                                              color: Colors.black
-                                                  .withOpacity(0.25),
+                                              color: Colors.black.withOpacity(
+                                                0.25,
+                                              ),
                                             ),
                                             BoxShadow(
                                               blurStyle: BlurStyle.inner,
                                               offset: const Offset(-1, 2),
                                               color: widget.lvlType == 2
                                                   ? HZOMColor.redFF0000
-                                                      .withOpacity(0.9)
-                                                  : HZOMColor.blue
-                                                      .withOpacity(0.9),
+                                                        .withOpacity(0.9)
+                                                  : HZOMColor.blue.withOpacity(
+                                                      0.9,
+                                                    ),
                                             ),
                                           ],
                                           color: HZOMColor.black1A1A1A
                                               .withOpacity(0.5),
-                                          borderRadius:
-                                              BorderRadius.circular(20.r),
+                                          borderRadius: BorderRadius.circular(
+                                            20.sp,
+                                          ),
                                         ),
-                                        child: Image.asset(
-                                          gunsProvider.gun,
-                                        ),
+                                        child: Image.asset(gunsProvider.gun),
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-                              SizedBox(
-                                width: 60.w,
-                              ),
+                              SizedBox(width: 60.w),
                               Expanded(
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                      'Bullet',
+                                      LocaleKeys.bullet.tr(),
                                       style: TextStyle(
-                                        fontSize: 32.sp,
+                                        fontSize: 20.h,
                                         fontWeight: FontWeight.w400,
                                         color: Colors.white,
                                       ),
                                     ),
-                                    SizedBox(
-                                      height: 19.h,
-                                    ),
+                                    SizedBox(height: 10.h),
                                     Container(
                                       padding: EdgeInsets.symmetric(
-                                          vertical: 4.5.h, horizontal: 5.5.w),
+                                        vertical: 4.5.h,
+                                        horizontal: 5.5.w,
+                                      ),
                                       decoration: BoxDecoration(
-                                          color: widget.lvlType == 2
-                                              ? HZOMColor.redFF0000
-                                              : HZOMColor.blue,
-                                          borderRadius:
-                                              BorderRadius.circular(20.r)),
+                                        color: widget.lvlType == 2
+                                            ? HZOMColor.redFF0000
+                                            : HZOMColor.blue,
+                                        borderRadius: BorderRadius.circular(
+                                          20.sp,
+                                        ),
+                                      ),
                                       child: Container(
-                                        height: 100.h,
+                                        height: 80.h,
                                         width: 117.w,
                                         decoration: BoxDecoration(
                                           boxShadow: [
@@ -631,34 +846,36 @@ class _GamiScreenState extends State<GamiScreen>
                                               offset: const Offset(-1, 2),
                                               blurRadius: 4,
                                               spreadRadius: 0,
-                                              color:
-                                                  Colors.white.withOpacity(0.5),
+                                              color: Colors.white.withOpacity(
+                                                0.5,
+                                              ),
                                             ),
                                             BoxShadow(
                                               offset: const Offset(-2, 1),
                                               blurRadius: 0,
                                               spreadRadius: 0,
-                                              color: Colors.black
-                                                  .withOpacity(0.25),
+                                              color: Colors.black.withOpacity(
+                                                0.25,
+                                              ),
                                             ),
                                             BoxShadow(
                                               blurStyle: BlurStyle.inner,
                                               offset: const Offset(-1, 2),
                                               color: widget.lvlType == 2
                                                   ? HZOMColor.redFF0000
-                                                      .withOpacity(0.9)
-                                                  : HZOMColor.blue
-                                                      .withOpacity(0.9),
+                                                        .withOpacity(0.9)
+                                                  : HZOMColor.blue.withOpacity(
+                                                      0.9,
+                                                    ),
                                             ),
                                           ],
                                           color: HZOMColor.black1A1A1A
                                               .withOpacity(0.5),
-                                          borderRadius:
-                                              BorderRadius.circular(20.r),
+                                          borderRadius: BorderRadius.circular(
+                                            20.sp,
+                                          ),
                                         ),
-                                        child: Image.asset(
-                                          gunsProvider.bullet,
-                                        ),
+                                        child: Image.asset(gunsProvider.bullet),
                                       ),
                                     ),
                                   ],
@@ -668,23 +885,21 @@ class _GamiScreenState extends State<GamiScreen>
                           ),
                         ),
                       ),
-                      ..._buildZombieStack(width - 32.w, height),
-                      ..._balls.map(
-                        (ball) {
-                          return Positioned(
-                            left:
-                                ball.x * MediaQuery.of(context).size.width - 25,
-                            bottom: (1 - ball.y) *
-                                    MediaQuery.of(context).size.height -
-                                25,
-                            child: SizedBox(
-                              width: 46.h,
-                              height: 46.h,
-                              child: Image.asset(gunsProvider.bullet),
-                            ),
-                          );
-                        },
-                      ),
+                      ..._buildZombieStack(width - 32.h, height),
+                      ..._balls.map((ball) {
+                        return Positioned(
+                          left: ball.x * MediaQuery.of(context).size.width - 25,
+                          bottom:
+                              (1 - ball.y) *
+                                  MediaQuery.of(context).size.height -
+                              25,
+                          child: SizedBox(
+                            width: 46.h,
+                            height: 46.h,
+                            child: Image.asset(gunsProvider.bullet),
+                          ),
+                        );
+                      }),
                       if (!isStart)
                         Positioned(
                           bottom: 150.h,
@@ -738,10 +953,7 @@ class ZombiTemplate {
   final String image;
   final bool isZombi;
 
-  ZombiTemplate({
-    required this.image,
-    required this.isZombi,
-  });
+  ZombiTemplate({required this.image, required this.isZombi});
 }
 
 final List<ZombiTemplate> zombiTemplate1 = [
@@ -757,8 +969,10 @@ final List<ZombiTemplate> zombiTemplate3 = [
   ZombiTemplate(image: 'assets/images/zombie3_2.png', isZombi: true),
 ];
 
-ZombiTemplate zombiKat =
-    ZombiTemplate(image: 'assets/images/cat.png', isZombi: false);
+ZombiTemplate zombiKat = ZombiTemplate(
+  image: 'assets/images/cat.png',
+  isZombi: false,
+);
 
 class Ball {
   double x;

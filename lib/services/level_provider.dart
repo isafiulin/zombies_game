@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zombies_game/generated/locale_keys.g.dart';
 
 class LevelProvider with ChangeNotifier {
   Map<int, int> _levl = {1: 1, 2: 1, 3: 1};
@@ -54,7 +55,7 @@ final List<String> lvlGameBack = [
 ];
 
 final List<String> lvlName = [
-  'Dark alleys',
-  'Hot resort',
-  "The Devil's Lair",
+  LocaleKeys.darkAlleys,
+  LocaleKeys.hotResort,
+  LocaleKeys.theDevilsLair,
 ];

@@ -32,8 +32,7 @@ class HZOMMot extends StatefulWidget {
   State<HZOMMot> createState() => _HZOMMotState();
 }
 
-class _HZOMMotState extends State<HZOMMot>
-    with SingleTickerProviderStateMixin {
+class _HZOMMotState extends State<HZOMMot> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _scale;
   late Animation<double> _opacity;
@@ -44,8 +43,10 @@ class _HZOMMotState extends State<HZOMMot>
 
     _animationController = AnimationController(vsync: this);
     _scale = Tween<double>(begin: 1.0, end: 1.0).animate(_animationController);
-    _opacity =
-        Tween<double>(begin: 1.0, end: 1.0).animate(_animationController);
+    _opacity = Tween<double>(
+      begin: 1.0,
+      end: 1.0,
+    ).animate(_animationController);
   }
 
   @override
@@ -54,32 +55,28 @@ class _HZOMMotState extends State<HZOMMot>
     super.dispose();
   }
 
-  Future<void> anim(
-      {required double scale,
-      required double opacity,
-      Duration duration = Duration.zero}) async {
+  Future<void> anim({
+    required double scale,
+    required double opacity,
+    Duration duration = Duration.zero,
+  }) async {
     _animationController.stop();
     _animationController.duration = duration;
 
-    _scale = Tween<double>(
-      begin: _scale.value,
-      end: scale,
-    ).animate(CurvedAnimation(
-      curve: widget.scaleCurve ?? _defaultScaleCurve,
-      parent: _animationController,
-    ));
-    _opacity = Tween<double>(
-      begin: _opacity.value,
-      end: opacity,
-    ).animate(CurvedAnimation(
-      curve: widget.opacityCurve,
-      parent: _animationController,
-    ));
+    _scale = Tween<double>(begin: _scale.value, end: scale).animate(
+      CurvedAnimation(
+        curve: widget.scaleCurve ?? _defaultScaleCurve,
+        parent: _animationController,
+      ),
+    );
+    _opacity = Tween<double>(begin: _opacity.value, end: opacity).animate(
+      CurvedAnimation(curve: widget.opacityCurve, parent: _animationController),
+    );
     _animationController.reset();
     _animationController.forward();
   }
 
-  Future<void> _onTapDown(_) {
+  Future<void> _onTapDown() {
     return anim(
       scale: widget.scaleMinValue,
       opacity: widget.opacityMinValue,
@@ -87,16 +84,12 @@ class _HZOMMotState extends State<HZOMMot>
     );
   }
 
-  Future<void> _onTapUp(_) {
-    return anim(
-      scale: 1.0,
-      opacity: 1.0,
-      duration: widget.duration,
-    );
+  Future<void> _onTapUp() {
+    return anim(scale: 1.0, opacity: 1.0, duration: widget.duration);
   }
 
-  Future<void> _onTapCancel(_) {
-    return _onTapUp(_);
+  Future<void> _onTapCancel() {
+    return _onTapUp();
   }
 
   @override
@@ -114,9 +107,9 @@ class _HZOMMotState extends State<HZOMMot>
         );
       },
       child: Listener(
-        onPointerDown: _onTapDown,
-        onPointerCancel: _onTapCancel,
-        onPointerUp: _onTapUp,
+        onPointerDown: (event) => _onTapDown(),
+        onPointerCancel: (event) => _onTapCancel(),
+        onPointerUp: (event) => _onTapUp(),
         child: GestureDetector(
           onTap: () {
             if (widget.enableFeedback) {
@@ -141,13 +134,9 @@ class CurveSpring extends Curve {
   double transform(double t) => sim.x(t) + t * (1 - sim.x(1.0));
 }
 
-_sim(double stiffness, double damping) => SpringSimulation(
-      SpringDescription.withDampingRatio(
-        mass: 1,
-        stiffness: stiffness,
-        ratio: 0.7,
-      ),
-      0.0,
-      1.0,
-      0.0,
-    );
+SpringSimulation _sim(double stiffness, double damping) => SpringSimulation(
+  SpringDescription.withDampingRatio(mass: 1, stiffness: stiffness, ratio: 0.7),
+  0.0,
+  1.0,
+  0.0,
+);
