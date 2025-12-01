@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_yandex_games/flutter_yandex_games.dart';
 import 'package:zombies_game/generated/locale_keys.g.dart';
 import 'package:zombies_game/hzom/hzom_color.dart';
 import 'package:zombies_game/hzom/hzom_motion.dart';
@@ -21,23 +20,7 @@ class _Mai1nScreenState extends State<Mai1nScreen> {
 
   bool initFinished = true;
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      initYandexGames();
-    });
-  }
 
-  void initYandexGames() {
-    YandexGames.init().then((value) {
-      setState(() {
-        status = "Yandex Games Sdk Init Successful";
-        initFinished = true;
-        YandexGames.loadingApi.ready();
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

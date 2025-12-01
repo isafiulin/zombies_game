@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_yandex_games/flutter_yandex_games.dart';
 import 'package:zombies_game/generated/locale_keys.g.dart';
 import 'package:zombies_game/hzom/hzom_color.dart';
 import 'package:zombies_game/hzom/hzom_motion.dart';
@@ -15,27 +14,7 @@ class FirstScreen extends StatefulWidget {
 }
 
 class _FirstScreenState extends State<FirstScreen> {
-  String status = "Initializing...";
 
-  bool initFinished = true;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      initYandexGames();
-    });
-  }
-
-  void initYandexGames() {
-    YandexGames.init().then((value) {
-      setState(() {
-        status = "Yandex Games Sdk Init Successful";
-        initFinished = true;
-        YandexGames.loadingApi.ready();
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +34,7 @@ class _FirstScreenState extends State<FirstScreen> {
         child: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 50.h),
-            child: initFinished
-                ? Column(
+            child: Column(
                     children: [
                       Text(
                         FlutterI18n.translate(context, LocaleKeys.hint1),
@@ -140,7 +118,7 @@ class _FirstScreenState extends State<FirstScreen> {
                       ),
                     ],
                   )
-                : const Center(child: Text('Initializing...')),
+              
           ),
         ),
       ),

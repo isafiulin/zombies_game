@@ -381,14 +381,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_yandex_games:
-    dependency: "direct main"
-    description:
-      name: flutter_yandex_games
-      sha256: "7758647056e59e408fc7d33cd6d1b0dae36fc5a34509ff8d5871b8c2020e066b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.7"
   frontend_server_client:
     dependency: transitive
     description:
