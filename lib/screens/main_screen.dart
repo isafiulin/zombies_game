@@ -1,5 +1,5 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_yandex_games/flutter_yandex_games.dart';
 import 'package:zombies_game/generated/locale_keys.g.dart';
@@ -108,7 +108,7 @@ class _Mai1nScreenState extends State<Mai1nScreen> {
                             ),
                             child: Center(
                               child: Text(
-                                LocaleKeys.play.tr(),
+                                FlutterI18n.translate(context, LocaleKeys.play),
                                 style: TextStyle(
                                   fontSize: 26.h,
                                   fontWeight: FontWeight.w400,
@@ -170,7 +170,7 @@ class _Mai1nScreenState extends State<Mai1nScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  LocaleKeys.levels.tr(),
+                                  FlutterI18n.translate(context, LocaleKeys.levels),
                                   style: TextStyle(
                                     fontSize: 26.h,
                                     fontWeight: FontWeight.w400,
@@ -233,7 +233,7 @@ class _Mai1nScreenState extends State<Mai1nScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  LocaleKeys.shop.tr(),
+                                  FlutterI18n.translate(context, LocaleKeys.shop),
                                   style: TextStyle(
                                     fontSize: 26.h,
                                     fontWeight: FontWeight.w400,
@@ -247,13 +247,14 @@ class _Mai1nScreenState extends State<Mai1nScreen> {
                       ),
                       SizedBox(height: 25.h),
                       HZOMMot(
-                        onPressed: () {
-                          Navigator.push(
+                        onPressed: ()  async {
+                         await Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => const NastokiScreen(),
                             ),
                           );
+                          setState(() {});
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(
@@ -296,7 +297,7 @@ class _Mai1nScreenState extends State<Mai1nScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  LocaleKeys.settings.tr(),
+                                  FlutterI18n.translate(context, LocaleKeys.settings),
                                   style: TextStyle(
                                     fontSize: 26.h,
                                     fontWeight: FontWeight.w400,

@@ -1,5 +1,5 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_yandex_games/flutter_yandex_games.dart';
 import 'package:zombies_game/generated/locale_keys.g.dart';
@@ -59,21 +59,21 @@ class _FirstScreenState extends State<FirstScreen> {
                 ? Column(
                     children: [
                       Text(
-                        LocaleKeys.hint1,
+                        FlutterI18n.translate(context, LocaleKeys.hint1),
                         style: TextStyle(
                           fontSize: 24.sp,
                           fontWeight: FontWeight.w400,
                           color: Colors.white,
                         ),
-                      ).tr(),
+                      ),
                       Text(
-                        LocaleKeys.hint2,
+                        FlutterI18n.translate(context, LocaleKeys.hint2),
                         style: TextStyle(
                           fontSize: 24.sp,
                           fontWeight: FontWeight.w400,
                           color: Colors.white,
                         ),
-                      ).tr(),
+                      ),
                       const Spacer(),
                       HZOMMot(
                         onPressed: () {
@@ -126,7 +126,7 @@ class _FirstScreenState extends State<FirstScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  LocaleKeys.ok.tr(),
+                                  FlutterI18n.translate(context, LocaleKeys.ok),
                                   style: TextStyle(
                                     fontSize: 26.h,
                                     fontWeight: FontWeight.w400,

@@ -1,5 +1,5 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zombies_game/generated/locale_keys.g.dart';
 import 'package:zombies_game/hzom/hzom_color.dart';
@@ -19,7 +19,7 @@ class _NastokiScreenState extends State<NastokiScreen> {
   Widget build(BuildContext context) {
     final musicProvider = Provider.of<MusicProvider>(context);
     precacheImage(const AssetImage('assets/images/mai1n_back.png'), context);
-    final bool isRu = context.locale.languageCode == 'ru';
+    final bool isRu = FlutterI18n.currentLocale(context)?.languageCode == 'ru';
 
     return Scaffold(
       body: Container(
@@ -53,7 +53,7 @@ class _NastokiScreenState extends State<NastokiScreen> {
                             width: 27.h,
                           ),
                           Text(
-                            LocaleKeys.back.tr(),
+                            FlutterI18n.translate(context, LocaleKeys.back),
                             style: TextStyle(
                               fontSize: 20.h,
                               fontWeight: FontWeight.w400,
@@ -65,7 +65,7 @@ class _NastokiScreenState extends State<NastokiScreen> {
                     ),
                     const Spacer(),
                     Text(
-                      LocaleKeys.settings.tr(),
+                      FlutterI18n.translate(context, LocaleKeys.settings),
                       style: TextStyle(
                         fontSize: 26.h,
                         fontWeight: FontWeight.w400,
@@ -124,8 +124,14 @@ class _NastokiScreenState extends State<NastokiScreen> {
                         children: [
                           Text(
                             musicProvider.isMusa
-                                ? LocaleKeys.musicOff.tr()
-                                : LocaleKeys.musicOn.tr(),
+                                ? FlutterI18n.translate(
+                                    context,
+                                    LocaleKeys.musicOff,
+                                  )
+                                : FlutterI18n.translate(
+                                    context,
+                                    LocaleKeys.musicOn,
+                                  ),
                             style: TextStyle(
                               fontSize: 20.h,
                               fontWeight: FontWeight.w400,
@@ -139,12 +145,13 @@ class _NastokiScreenState extends State<NastokiScreen> {
                 ),
                 SizedBox(height: 20.h),
                 HZOMMot(
-                  onPressed: () {
-                    setState(() {
-                      context.setLocale(
-                        isRu ? const Locale('en') : const Locale('ru'),
-                      );
-                    });
+                  onPressed: () async {
+                    await FlutterI18n.refresh(
+                      context,
+                      isRu ? const Locale('en') : const Locale('ru'),
+                    );
+
+                    setState(() {});
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(
@@ -187,7 +194,7 @@ class _NastokiScreenState extends State<NastokiScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            '${LocaleKeys.language.tr()}: ${isRu ? 'Русский' : 'English'}',
+                            '${FlutterI18n.translate(context, LocaleKeys.language)}: ${isRu ? 'Русский' : 'English'}',
                             style: TextStyle(
                               fontSize: 20.h,
                               fontWeight: FontWeight.w400,

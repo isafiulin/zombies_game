@@ -1,6 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zombies_game/generated/locale_keys.g.dart';
 import 'package:zombies_game/hzom/hzom_color.dart';
@@ -32,10 +32,12 @@ class _Sh0pScreenState extends State<Sh0pScreen> {
         context: context,
         builder: (BuildContext context) => CupertinoAlertDialog(
           title: Text(
-            LocaleKeys.notEnoughCoinsTitle.tr(),
+            FlutterI18n.translate(context, LocaleKeys.notEnoughCoinsTitle),
             style: TextStyle(fontFamily: 'Montserrat'),
           ),
-          content: Text(LocaleKeys.notEnoughCoinsContent.tr()),
+          content: Text(
+            FlutterI18n.translate(context, LocaleKeys.notEnoughCoinsContent),
+          ),
           actions: [
             CupertinoDialogAction(
               isDefaultAction: true,
@@ -69,8 +71,12 @@ class _Sh0pScreenState extends State<Sh0pScreen> {
       showDialog(
         context: context,
         builder: (BuildContext context) => CupertinoAlertDialog(
-          title: Text(LocaleKeys.notEnoughCoinsTitle.tr()),
-          content: Text(LocaleKeys.notEnoughCoinsContent.tr()),
+          title: Text(
+            FlutterI18n.translate(context, LocaleKeys.notEnoughCoinsTitle),
+          ),
+          content: Text(
+            FlutterI18n.translate(context, LocaleKeys.notEnoughCoinsContent),
+          ),
           actions: [
             CupertinoDialogAction(
               isDefaultAction: true,
@@ -125,7 +131,7 @@ class _Sh0pScreenState extends State<Sh0pScreen> {
                               width: 47.h,
                             ),
                             Text(
-                              LocaleKeys.back.tr(),
+                              FlutterI18n.translate(context, LocaleKeys.back),
                               style: TextStyle(
                                 fontSize: 20.h,
                                 fontWeight: FontWeight.w400,
@@ -137,7 +143,7 @@ class _Sh0pScreenState extends State<Sh0pScreen> {
                       ),
                       const Spacer(),
                       Text(
-                        LocaleKeys.shop.tr(),
+                        FlutterI18n.translate(context, LocaleKeys.shop),
                         style: TextStyle(
                           fontSize: 26.h,
                           fontWeight: FontWeight.w400,
@@ -182,7 +188,7 @@ class _Sh0pScreenState extends State<Sh0pScreen> {
                           left: 0,
                           right: 0,
                           child: Text(
-                            LocaleKeys.guns.tr(),
+                            FlutterI18n.translate(context, LocaleKeys.guns),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 26.h,
@@ -225,8 +231,14 @@ class _Sh0pScreenState extends State<Sh0pScreen> {
                                           gunsProvider.kuplGuns.contains(
                                                 defaultGun,
                                               )
-                                              ? LocaleKeys.set.tr()
-                                              : LocaleKeys.buy.tr(),
+                                              ? FlutterI18n.translate(
+                                                  context,
+                                                  LocaleKeys.set,
+                                                )
+                                              : FlutterI18n.translate(
+                                                  context,
+                                                  LocaleKeys.buy,
+                                                ),
                                           style: TextStyle(
                                             fontSize: 16.5.h,
                                             color: Colors.yellow,
@@ -263,8 +275,14 @@ class _Sh0pScreenState extends State<Sh0pScreen> {
                                           gunsProvider.kuplGuns.contains(
                                                 gunsList[0],
                                               )
-                                              ? LocaleKeys.set.tr()
-                                              : LocaleKeys.buy.tr(),
+                                              ? FlutterI18n.translate(
+                                                  context,
+                                                  LocaleKeys.set,
+                                                )
+                                              : FlutterI18n.translate(
+                                                  context,
+                                                  LocaleKeys.buy,
+                                                ),
                                           style: TextStyle(
                                             fontSize: 16.5.h,
                                             color: Colors.yellow,
@@ -301,8 +319,14 @@ class _Sh0pScreenState extends State<Sh0pScreen> {
                                           gunsProvider.kuplGuns.contains(
                                                 gunsList[1],
                                               )
-                                              ? LocaleKeys.set.tr()
-                                              : LocaleKeys.buy.tr(),
+                                              ? FlutterI18n.translate(
+                                                  context,
+                                                  LocaleKeys.set,
+                                                )
+                                              : FlutterI18n.translate(
+                                                  context,
+                                                  LocaleKeys.buy,
+                                                ),
                                           style: TextStyle(
                                             fontSize: 16.5.h,
                                             color: Colors.yellow,
@@ -339,8 +363,14 @@ class _Sh0pScreenState extends State<Sh0pScreen> {
                                           gunsProvider.kuplGuns.contains(
                                                 gunsList[2],
                                               )
-                                              ? LocaleKeys.set.tr()
-                                              : LocaleKeys.buy.tr(),
+                                              ? FlutterI18n.translate(
+                                                  context,
+                                                  LocaleKeys.set,
+                                                )
+                                              : FlutterI18n.translate(
+                                                  context,
+                                                  LocaleKeys.buy,
+                                                ),
                                           style: TextStyle(
                                             fontSize: 16.5.h,
                                             color: Colors.yellow,
@@ -374,7 +404,7 @@ class _Sh0pScreenState extends State<Sh0pScreen> {
                           left: 0,
                           right: 0,
                           child: Text(
-                            LocaleKeys.bullets.tr(),
+                            FlutterI18n.translate(context, LocaleKeys.bullets),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 26.h,
@@ -417,8 +447,14 @@ class _Sh0pScreenState extends State<Sh0pScreen> {
                                           gunsProvider.kuplBullets.contains(
                                                 defaultBullt,
                                               )
-                                              ? LocaleKeys.set.tr()
-                                              : LocaleKeys.buy.tr(),
+                                              ? FlutterI18n.translate(
+                                                  context,
+                                                  LocaleKeys.set,
+                                                )
+                                              : FlutterI18n.translate(
+                                                  context,
+                                                  LocaleKeys.buy,
+                                                ),
                                           style: TextStyle(
                                             fontSize: 16.5.h,
                                             color: Colors.yellow,
@@ -455,8 +491,14 @@ class _Sh0pScreenState extends State<Sh0pScreen> {
                                           gunsProvider.kuplBullets.contains(
                                                 bulletsList[0],
                                               )
-                                              ? LocaleKeys.set.tr()
-                                              : LocaleKeys.buy.tr(),
+                                              ? FlutterI18n.translate(
+                                                  context,
+                                                  LocaleKeys.set,
+                                                )
+                                              : FlutterI18n.translate(
+                                                  context,
+                                                  LocaleKeys.buy,
+                                                ),
                                           style: TextStyle(
                                             fontSize: 16.5.h,
                                             color: Colors.yellow,
@@ -493,8 +535,14 @@ class _Sh0pScreenState extends State<Sh0pScreen> {
                                           gunsProvider.kuplBullets.contains(
                                                 bulletsList[1],
                                               )
-                                              ? LocaleKeys.set.tr()
-                                              : LocaleKeys.buy.tr(),
+                                              ? FlutterI18n.translate(
+                                                  context,
+                                                  LocaleKeys.set,
+                                                )
+                                              : FlutterI18n.translate(
+                                                  context,
+                                                  LocaleKeys.buy,
+                                                ),
                                           style: TextStyle(
                                             fontSize: 16.5.h,
                                             color: Colors.yellow,
@@ -531,8 +579,14 @@ class _Sh0pScreenState extends State<Sh0pScreen> {
                                           gunsProvider.kuplBullets.contains(
                                                 bulletsList[2],
                                               )
-                                              ? LocaleKeys.set.tr()
-                                              : LocaleKeys.buy.tr(),
+                                              ? FlutterI18n.translate(
+                                                  context,
+                                                  LocaleKeys.set,
+                                                )
+                                              : FlutterI18n.translate(
+                                                  context,
+                                                  LocaleKeys.buy,
+                                                ),
                                           style: TextStyle(
                                             fontSize: 16.5.h,
                                             color: Colors.yellow,

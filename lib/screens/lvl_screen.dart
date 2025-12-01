@@ -1,5 +1,5 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zombies_game/generated/locale_keys.g.dart';
 import 'package:zombies_game/hzom/hzom_color.dart';
@@ -51,133 +51,140 @@ class _LVLScreenState extends State<LVLScreen> {
                 child: SafeArea(
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 41.0.h),
-                    child: Column(
-                      children: [
-                        SizedBox(height: 150.h),
-                        GridView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          padding: EdgeInsets.zero,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                childAspectRatio: 1.2.spMin,
-                                crossAxisCount: 5,
-                                crossAxisSpacing: 16.0.h,
-                                mainAxisSpacing: 16.0.h,
-                              ),
-                          itemCount: 10,
-                          itemBuilder: (context, index) {
-                            int level = index + 1;
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          SizedBox(height: 150.h),
+                          GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            padding: EdgeInsets.zero,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                  mainAxisExtent: 0.2.sh,
+                                  crossAxisCount: 5,
+                                  crossAxisSpacing: 16.0.h,
+                                  mainAxisSpacing: 16.0.h,
+                                ),
+                            itemCount: 10,
+                            itemBuilder: (context, index) {
+                              int level = index + 1;
 
-                            return HZOMMot(
-                              onPressed: () {
-                                if (index >
-                                    levelProvider.levl[selLvl + 1]! - 1) {
-                                  return;
-                                }
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => GamiScreen(
-                                      lvlType: selLvl + 1,
-                                      lvl: index + 1,
+                              return HZOMMot(
+                                onPressed: () {
+                                  if (index >
+                                      levelProvider.levl[selLvl + 1]! - 1) {
+                                    return;
+                                  }
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => GamiScreen(
+                                        lvlType: selLvl + 1,
+                                        lvl: index + 1,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                      15.0.sp,
+                                    ),
+                                    image: DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: AssetImage(
+                                        selLvl == 1
+                                            ? index >
+                                                      levelProvider
+                                                              .levl[selLvl +
+                                                              1]! -
+                                                          1
+                                                  ? 'assets/images/redDis.png'
+                                                  : 'assets/images/redEn.png'
+                                            : index >
+                                                  levelProvider.levl[selLvl +
+                                                          1]! -
+                                                      1
+                                            ? 'assets/images/blueDis.png'
+                                            : 'assets/images/blueEn.png',
+                                      ),
                                     ),
                                   ),
-                                );
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15.0.sp),
-                                  image: DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image: AssetImage(
-                                      selLvl == 1
-                                          ? index >
-                                                    levelProvider.levl[selLvl +
-                                                            1]! -
-                                                        1
-                                                ? 'assets/images/redDis.png'
-                                                : 'assets/images/redEn.png'
-                                          : index >
+                                  child: Center(
+                                    child: Text(
+                                      "$level",
+                                      style: TextStyle(
+                                        fontSize: 26.h,
+                                        fontWeight: FontWeight.w700,
+                                        color:
+                                            index >
                                                 levelProvider.levl[selLvl +
                                                         1]! -
                                                     1
-                                          ? 'assets/images/blueDis.png'
-                                          : 'assets/images/blueEn.png',
+                                            ? Colors.grey
+                                            : Colors.white,
+                                      ),
                                     ),
                                   ),
                                 ),
-                                child: Center(
-                                  child: Text(
-                                    "$level",
-                                    style: TextStyle(
-                                      fontSize: 26.h,
-                                      fontWeight: FontWeight.w700,
-                                      color:
-                                          index >
-                                              levelProvider.levl[selLvl + 1]! -
-                                                  1
-                                          ? Colors.grey
-                                          : Colors.white,
-                                    ),
-                                  ),
+                              );
+                            },
+                          ),
+                          SizedBox(height: 50.h),
+                          Row(
+                            children: [
+                              HZOMMot(
+                                onPressed: () {
+                                  if (selLvl == 0) {
+                                    return;
+                                  }
+                                  _pageController.previousPage(
+                                    duration: Durations.medium1,
+                                    curve: Curves.ease,
+                                  );
+                                },
+                                child: Image.asset(
+                                  selLvl == 1
+                                      ? 'assets/images/leftred.png'
+                                      : 'assets/images/left.png',
+                                  height: 41.h,
+                                  width: 45.h,
                                 ),
                               ),
-                            );
-                          },
-                        ),
-                        SizedBox(height: 50.h),
-                        Row(
-                          children: [
-                            HZOMMot(
-                              onPressed: () {
-                                if (selLvl == 0) {
-                                  return;
-                                }
-                                _pageController.previousPage(
-                                  duration: Durations.medium1,
-                                  curve: Curves.ease,
-                                );
-                              },
-                              child: Image.asset(
-                                selLvl == 1
-                                    ? 'assets/images/leftred.png'
-                                    : 'assets/images/left.png',
-                                height: 41.h,
-                                width: 45.h,
+                              const Spacer(),
+                              Text(
+                                FlutterI18n.translate(context, lvlName[selLvl]),
+                                style: TextStyle(
+                                  fontSize: 26.h,
+                                  fontWeight: FontWeight.w400,
+                                  color: HZOMColor.white,
+                                ),
                               ),
-                            ),
-                            const Spacer(),
-                            Text(
-                              lvlName[selLvl].tr(),
-                              style: TextStyle(
-                                fontSize: 26.h,
-                                fontWeight: FontWeight.w400,
-                                color: HZOMColor.white,
+                              const Spacer(),
+                              HZOMMot(
+                                onPressed: () {
+                                  if (selLvl == 2) {
+                                    return;
+                                  }
+                                  _pageController.nextPage(
+                                    duration: Durations.medium1,
+                                    curve: Curves.ease,
+                                  );
+                                },
+                                child: Image.asset(
+                                  selLvl == 1
+                                      ? 'assets/images/rightred.png'
+                                      : 'assets/images/right.png',
+                                  height: 41.h,
+                                  width: 45.h,
+                                ),
                               ),
-                            ),
-                            const Spacer(),
-                            HZOMMot(
-                              onPressed: () {
-                                if (selLvl == 2) {
-                                  return;
-                                }
-                                _pageController.nextPage(
-                                  duration: Durations.medium1,
-                                  curve: Curves.ease,
-                                );
-                              },
-                              child: Image.asset(
-                                selLvl == 1
-                                    ? 'assets/images/rightred.png'
-                                    : 'assets/images/right.png',
-                                height: 41.h,
-                                width: 45.h,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                          SizedBox(height: 150.h),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -204,7 +211,7 @@ class _LVLScreenState extends State<LVLScreen> {
                               width: 27.h,
                             ),
                             Text(
-                              LocaleKeys.back.tr(),
+                              FlutterI18n.translate(context, LocaleKeys.back),
                               style: TextStyle(
                                 fontSize: 20.h,
                                 fontWeight: FontWeight.w400,
@@ -216,7 +223,7 @@ class _LVLScreenState extends State<LVLScreen> {
                       ),
                       const Spacer(),
                       Text(
-                        LocaleKeys.levels.tr(),
+                        FlutterI18n.translate(context, LocaleKeys.levels),
                         style: TextStyle(
                           fontSize: 26.h,
                           fontWeight: FontWeight.w400,
@@ -284,7 +291,7 @@ class _LVLScreenState extends State<LVLScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  LocaleKeys.play.tr(),
+                  FlutterI18n.translate(context, LocaleKeys.play),
                   style: TextStyle(
                     fontSize: 30.h,
                     fontWeight: FontWeight.w400,

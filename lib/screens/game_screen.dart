@@ -4,8 +4,8 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zombies_game/generated/locale_keys.g.dart';
 
@@ -34,7 +34,7 @@ class _GamiScreenState extends State<GamiScreen>
   List<Zombi> zombiList = [];
   final List<Ball> _balls = [];
   bool isStart = false;
-  final _audioPlayer = AudioPlayer();
+  final _audioPlayer = AudioPlayer(playerId: 'sfx');
 
   @override
   void initState() {
@@ -64,14 +64,14 @@ class _GamiScreenState extends State<GamiScreen>
       builder: (context) {
         return SizedBox(
           height: 305.h,
-          width: 360.w,
+          width: 360.h,
           child: AlertDialog(
             elevation: 0,
             contentPadding: EdgeInsets.zero,
             content: Container(
               height: 250.h,
-              width: 360.w,
-              padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 25.h),
+              width: 360.h,
+              padding: EdgeInsets.symmetric(horizontal: 22.h, vertical: 25.h),
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.fill,
@@ -82,7 +82,7 @@ class _GamiScreenState extends State<GamiScreen>
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    LocaleKeys.youLose.tr(),
+                    FlutterI18n.translate(context, LocaleKeys.youLose),
                     style: TextStyle(
                       fontSize: 24.sp,
                       fontWeight: FontWeight.w400,
@@ -108,7 +108,7 @@ class _GamiScreenState extends State<GamiScreen>
                                 fit: BoxFit.fill,
                               ),
                               Text(
-                                LocaleKeys.back.tr(),
+                                FlutterI18n.translate(context, LocaleKeys.back),
                                 style: TextStyle(
                                   fontSize: 20.h,
                                   color: Colors.white,
@@ -118,7 +118,7 @@ class _GamiScreenState extends State<GamiScreen>
                           ),
                         ),
                       ),
-                      SizedBox(width: 40.w),
+                      SizedBox(width: 40.h),
 
                       Expanded(
                         child: HZOMMot(
@@ -144,7 +144,7 @@ class _GamiScreenState extends State<GamiScreen>
                                 width: double.infinity,
                               ),
                               Text(
-                                LocaleKeys.restart.tr(),
+                                FlutterI18n.translate(context, LocaleKeys.restart),
                                 style: TextStyle(
                                   fontSize: 20.h,
                                   color: Colors.white,
@@ -176,15 +176,15 @@ class _GamiScreenState extends State<GamiScreen>
       builder: (context) {
         return SizedBox(
           height: 335.h,
-          width: 360.w,
+          width: 360.h,
           child: AlertDialog(
             elevation: 0,
             backgroundColor: Colors.transparent,
             contentPadding: EdgeInsets.zero,
             content: Container(
               height: 335.h,
-              width: 360.w,
-              padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 25.h),
+              width: 360.h,
+              padding: EdgeInsets.symmetric(horizontal: 22.h, vertical: 25.h),
               decoration: const BoxDecoration(
                 color: HZOMColor.bg,
                 image: DecorationImage(
@@ -196,7 +196,7 @@ class _GamiScreenState extends State<GamiScreen>
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    LocaleKeys.youWin.tr(),
+                    FlutterI18n.translate(context, LocaleKeys.youWin),
                     style: TextStyle(
                       fontSize: 24.sp,
                       fontWeight: FontWeight.w400,
@@ -249,7 +249,7 @@ class _GamiScreenState extends State<GamiScreen>
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    LocaleKeys.back.tr(),
+                                    FlutterI18n.translate(context, LocaleKeys.back),
                                     style: TextStyle(
                                       fontSize: 20.h,
                                       fontWeight: FontWeight.w400,
@@ -263,7 +263,7 @@ class _GamiScreenState extends State<GamiScreen>
                         ),
                       ),
 
-                      SizedBox(width: 10.w),
+                      SizedBox(width: 10.h),
 
                       Expanded(
                         child: Visibility(
@@ -323,7 +323,7 @@ class _GamiScreenState extends State<GamiScreen>
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      LocaleKeys.continueText.tr(),
+                                      FlutterI18n.translate(context, LocaleKeys.continueText),
                                       style: TextStyle(
                                         fontSize: 20.h,
                                         fontWeight: FontWeight.w400,
@@ -449,7 +449,7 @@ class _GamiScreenState extends State<GamiScreen>
     final int rows = (zombiList.length / columns).ceil();
 
     // Gaps and reserved spaces
-    final double gapX = 10.w;
+    final double gapX = 10.h;
     final double gapY = 10.h;
     final double topOffset = 130.h;
     // Reserve space for the bottom controls so the grid doesn't overlap
@@ -656,7 +656,7 @@ class _GamiScreenState extends State<GamiScreen>
                                   width: 27.h,
                                 ),
                                 Text(
-                                  LocaleKeys.back.tr(),
+                                  FlutterI18n.translate(context, LocaleKeys.back),
                                   style: TextStyle(
                                     fontSize: 20.h,
                                     fontWeight: FontWeight.w400,
@@ -668,7 +668,7 @@ class _GamiScreenState extends State<GamiScreen>
                           ),
                           const Spacer(),
                           Text(
-                            '${LocaleKeys.level.tr()} ${widget.lvl}',
+                            '${FlutterI18n.translate(context, LocaleKeys.level)} ${widget.lvl}',
                             style: TextStyle(
                               fontSize: 26.h,
                               fontWeight: FontWeight.w400,
@@ -694,9 +694,9 @@ class _GamiScreenState extends State<GamiScreen>
                                         color: Colors.white,
                                       ),
                                       children: <TextSpan>[
-                                        TextSpan(text: LocaleKeys.hint5.tr()),
+                                        TextSpan(text: FlutterI18n.translate(context, LocaleKeys.hint5)),
                                         TextSpan(
-                                          text: LocaleKeys.zombies.tr(),
+                                          text: FlutterI18n.translate(context, LocaleKeys.zombies),
                                           style: TextStyle(
                                             color: Color(0xFF00FF00),
                                             fontWeight: FontWeight.bold,
@@ -715,17 +715,17 @@ class _GamiScreenState extends State<GamiScreen>
                                     ),
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: '${LocaleKeys.hint3.tr()} \n',
+                                        text: '${FlutterI18n.translate(context, LocaleKeys.hint3)} \n',
                                       ),
                                       TextSpan(
-                                        text: LocaleKeys.zombies.tr(),
+                                        text: FlutterI18n.translate(context, LocaleKeys.zombies),
                                         style: TextStyle(
                                           color: Color(0xFF00FF00),
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                       TextSpan(
-                                        text: ' ${LocaleKeys.hint3_2.tr()}',
+                                        text: ' ${FlutterI18n.translate(context, LocaleKeys.hint3_2)}',
                                       ),
                                     ],
                                   ),
@@ -743,7 +743,7 @@ class _GamiScreenState extends State<GamiScreen>
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                      LocaleKeys.gun.tr(),
+                                      FlutterI18n.translate(context, LocaleKeys.gun),
                                       style: TextStyle(
                                         fontSize: 20.h,
                                         fontWeight: FontWeight.w400,
@@ -754,7 +754,7 @@ class _GamiScreenState extends State<GamiScreen>
                                     Container(
                                       padding: EdgeInsets.symmetric(
                                         vertical: 4.5.h,
-                                        horizontal: 5.5.w,
+                                        horizontal: 5.5.h,
                                       ),
                                       decoration: BoxDecoration(
                                         color: widget.lvlType == 2
@@ -766,7 +766,7 @@ class _GamiScreenState extends State<GamiScreen>
                                       ),
                                       child: Container(
                                         height: 80.h,
-                                        width: 117.w,
+                                        width: 117.h,
                                         decoration: BoxDecoration(
                                           boxShadow: [
                                             BoxShadow(
@@ -809,13 +809,13 @@ class _GamiScreenState extends State<GamiScreen>
                                   ],
                                 ),
                               ),
-                              SizedBox(width: 60.w),
+                              SizedBox(width: 60.h),
                               Expanded(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                      LocaleKeys.bullet.tr(),
+                                      FlutterI18n.translate(context, LocaleKeys.bullet),
                                       style: TextStyle(
                                         fontSize: 20.h,
                                         fontWeight: FontWeight.w400,
@@ -826,7 +826,7 @@ class _GamiScreenState extends State<GamiScreen>
                                     Container(
                                       padding: EdgeInsets.symmetric(
                                         vertical: 4.5.h,
-                                        horizontal: 5.5.w,
+                                        horizontal: 5.5.h,
                                       ),
                                       decoration: BoxDecoration(
                                         color: widget.lvlType == 2
@@ -838,7 +838,7 @@ class _GamiScreenState extends State<GamiScreen>
                                       ),
                                       child: Container(
                                         height: 80.h,
-                                        width: 117.w,
+                                        width: 117.h,
                                         decoration: BoxDecoration(
                                           boxShadow: [
                                             BoxShadow(

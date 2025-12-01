@@ -1,8 +1,12 @@
 import 'dart:ui';
 
-import 'package:easy_localization/easy_localization.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_i18n/loaders/decoders/json_decode_strategy.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:zombies_game/hzom/global_general_constants.dart';
 import 'package:zombies_game/hzom/hzom_color.dart';
 import 'package:zombies_game/hzom/game_frame.dart';
@@ -37,6 +41,26 @@ void main() async {
   final String defaultLocale = PlatformDispatcher.instance.locale.languageCode;
   String systemLanguageCode = '';
 
+  print('defaultLocale: $defaultLocale');
+  if (!kIsWeb) {
+    AudioPlayer.global.setAudioContext(
+      AudioContext(
+        android: AudioContextAndroid(
+          contentType: AndroidContentType.sonification,
+          usageType: AndroidUsageType.game,
+          audioFocus:
+              AndroidAudioFocus.none, 
+          isSpeakerphoneOn: false,
+          stayAwake: false,
+        ),
+        iOS: AudioContextIOS(
+          category: AVAudioSessionCategory.ambient,
+          options: {AVAudioSessionOptions.mixWithOthers},
+        ),
+      ),
+    );
+  }
+
   if (defaultLocale.contains(GlobalGeneralConsts.ru)) {
     systemLanguageCode = GlobalGeneralConsts.ru;
   } else if (defaultLocale.contains(GlobalGeneralConsts.en)) {
@@ -49,21 +73,28 @@ void main() async {
       prefs.getString(GlobalPrefsConst.lang) ?? systemLanguageCode;
 
   prefs.setString(GlobalPrefsConst.lang, languageCode);
-  Intl.defaultLocale = 'ru_RU';
+  // Intl.defaultLocale = 'ru_RU';
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
 
-  await EasyLocalization.ensureInitialized();
+  final delegate = FlutterI18nDelegate(
+    translationLoader: FileTranslationLoader(
+      basePath: 'assets/i18n', // путь из pubspec.yaml
+      fallbackFile: 'en', // файл по умолчанию
+      forcedLocale: Locale(systemLanguageCode), // можно задать стартап-локаль
+      useCountryCode: false,
+      decodeStrategies: [
+        JsonDecodeStrategy(), // читаем ТОЛЬКО .json
+      ],
+    ),
+  );
 
   await _setloadFirstOpenFromPrefs();
   runApp(
-    EasyLocalization(
-      ignorePluralRules: false,
-      supportedLocales: const [Locale('ru'), Locale('en')],
-      path: 'assets/translations',
-      startLocale: Locale(languageCode),
-      fallbackLocale: const Locale('ru'),
-      child: ZombiesApp(isFirst: aaa, languageCode: languageCode),
+    ZombiesApp(
+      isFirst: aaa,
+      languageCode: languageCode,
+      i18nDelegate: delegate,
     ),
   );
 }
@@ -73,9 +104,12 @@ class ZombiesApp extends StatelessWidget {
     super.key,
     required this.isFirst,
     required this.languageCode,
+    required this.i18nDelegate,
   });
   final bool isFirst;
   final String languageCode;
+  final FlutterI18nDelegate i18nDelegate;
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -90,9 +124,13 @@ class ZombiesApp extends StatelessWidget {
           // Wrap every page in a centered, constrained frame with white background
           return GameFrame(child: child ?? const SizedBox());
         },
-        locale: context.locale,
-        supportedLocales: context.supportedLocales,
-        localizationsDelegates: context.localizationDelegates,
+        localizationsDelegates: [
+          i18nDelegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [Locale('en'), Locale('ru'), Locale('ky')],
         debugShowCheckedModeBanner: false,
         title: 'ZombiesOrCats',
         theme: ThemeData(
